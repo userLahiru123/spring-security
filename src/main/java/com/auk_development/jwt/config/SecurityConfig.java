@@ -1,5 +1,6 @@
 package com.auk_development.jwt.config;
 
+import com.auk_development.jwt.repository.UserRepository;
 import com.auk_development.jwt.service.MyUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +17,12 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    private final UserRepository userRepository;
+
+    public SecurityConfig(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -45,6 +52,6 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService(){
-        return new MyUserDetailsService(passwordEncoder());
+        return new MyUserDetailsService(userRepository);
     }
 }
