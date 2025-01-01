@@ -32,9 +32,13 @@ public class JwtService {
     }
 
     public String getUserName(String token){
-        return Jwts.parser()
-                .verifyWith(secretKey)
-                .build().parseSignedClaims(token)
-                .getPayload().getSubject();
+        try {
+            return Jwts.parser()
+                    .verifyWith(secretKey)
+                    .build().parseSignedClaims(token)
+                    .getPayload().getSubject();
+        }catch (Exception e){
+            return "Invalid token...";
+        }
     }
 }
